@@ -1,4 +1,4 @@
-resource "aws_codecommit_repository" "terraform-codepipeline-template" {
-  repository_name = "terraform-codepipeline-template"
-  description     = "terraform-codepipeline-template"
+resource "aws_codecommit_repository" "terraform-codepipeline-template-codecommit" {
+  repository_name = "terraform-codepipeline-template-codecommit"
+  description     = "terraform-codepipeline-template-codecommit"
 }
