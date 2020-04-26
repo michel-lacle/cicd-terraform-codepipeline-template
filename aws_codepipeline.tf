@@ -51,7 +51,7 @@ resource "aws_codepipeline" "codepipeline" {
         "SourceArtifact"]
 
       configuration = {
-        RepositoryName = aws_codecommit_repository.terraform-codepipeline-template.repository_name
+        RepositoryName = aws_codecommit_repository.terraform-codepipeline-template-codecommit.repository_name
         BranchName = "master"
         PollForSourceChanges = true
       }
