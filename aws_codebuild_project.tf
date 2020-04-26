@@ -48,9 +48,6 @@ resource "aws_codebuild_project" "talos-build-project" {
     image = "aws/codebuild/standard:4.0"
     type = "LINUX_CONTAINER"
     image_pull_credentials_type = "CODEBUILD"
-
-    # enable us to run the docker deamon inside a docker container
-    privileged_mode = true
   }
 
   tags = {
