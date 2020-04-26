@@ -4,8 +4,8 @@
         {
             "Effect": "Allow",
             "Resource": [
-                "arn:aws:logs:us-east-1:*:log-group:/aws/codebuild/TalosBuild",
-                "arn:aws:logs:us-east-1:*:log-group:/aws/codebuild/TalosBuild:*"
+                "arn:aws:logs:us-east-1:*:log-group:/aws/codebuild/*",
+                "arn:aws:logs:us-east-1:*:log-group:/aws/codebuild/*"
             ],
             "Action": [
                 "logs:CreateLogGroup",
