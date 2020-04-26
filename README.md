@@ -4,3 +4,6 @@ This repo provides an example of how to setup a basic CICD pipeline using AWS Co
 ,AWS CodePipeline, and AWS CodeDeploy.
 
 We will also setup Slack notifications, in order to pass build status updates. 
+
+# TODO setup ssh keys and push code to code commit
+

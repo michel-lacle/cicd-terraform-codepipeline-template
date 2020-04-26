@@ -1,5 +1,5 @@
 resource "aws_iam_role" "codebuild-role" {
-  name = "codebuild-role"
+  name = "${var.project-name}-codebuild-role"
 
   assume_role_policy = <<EOF
 {
@@ -24,8 +24,8 @@ resource "aws_iam_role_policy" "codebuild-role-policy" {
 }
 
 resource "aws_codebuild_project" "talos-build-project" {
-  name = "template-build"
-  description = "build the template app"
+  name = "${var.project-name}-codebuild-project"
+  description = "${var.project-name}-codebuild-project"
 
   # in minutes
   build_timeout = "10"
@@ -38,7 +38,6 @@ resource "aws_codebuild_project" "talos-build-project" {
   # what do we do with other branches?
   source_version = "master"
 
-  // TODO we may need to set this to CODEPIPELINE
   artifacts {
     type = "CODEPIPELINE"
   }
@@ -51,6 +50,6 @@ resource "aws_codebuild_project" "talos-build-project" {
   }
 
   tags = {
-    Environment = "Private"
+    Projectr = var.project-name
   }
 }
