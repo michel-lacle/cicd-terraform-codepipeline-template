@@ -24,8 +24,8 @@ resource "aws_iam_role_policy" "codebuild-role-policy" {
 }
 
 resource "aws_codebuild_project" "talos-build-project" {
-  name = "TalosBuild"
-  description = "Build the Talos App"
+  name = "template-build"
+  description = "build the template app"
 
   # in minutes
   build_timeout = "10"

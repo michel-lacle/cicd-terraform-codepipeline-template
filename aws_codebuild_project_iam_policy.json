@@ -35,7 +35,7 @@
                 "codebuild:BatchPutTestCases"
             ],
             "Resource": [
-                "arn:aws:codebuild:us-east-1:*:report-group/TalosBuild-*"
+                "arn:aws:codebuild:us-east-1:*:report-group/*"
             ]
         }
     ]
