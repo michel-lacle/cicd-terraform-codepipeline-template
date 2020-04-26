@@ -17,10 +17,62 @@ resource "aws_iam_role" "codebuild-role" {
 EOF
 }
 
+data "aws_iam_policy_document" "codebuild-policy" {
+
+  // allow codebuild to log to cloudwatch
+  statement {
+    actions = [
+      "logs:CreateLogGroup",
+      "logs:CreateLogStream",
+      "logs:PutLogEvents"
+    ]
+
+    effect = "Allow"
+
+    resources = [
+      "arn:aws:logs:us-east-1:*:log-group:/aws/codebuild/*",
+      "arn:aws:logs:us-east-1:*:log-group:/aws/codebuild/*"
+    ]
+  }
+
+  // allow codebuild to put artifacts in s3
+  statement {
+    actions = [
+      "s3:PutObject",
+      "s3:GetObject",
+      "s3:GetObjectVersion",
+      "s3:GetBucketAcl",
+      "s3:GetBucketLocation"
+    ]
+
+    effect = "Allow"
+
+    resources = [
+      "arn:aws:s3:::*"
+    ]
+  }
+
+  // allow codebuild to publish test reports
+  statement {
+    actions = [
+      "codebuild:CreateReportGroup",
+      "codebuild:CreateReport",
+      "codebuild:UpdateReport",
+      "codebuild:BatchPutTestCases"
+    ]
+
+    effect = "Allow"
+
+    resources = [
+      "arn:aws:codebuild:us-east-1:*:report-group/*"
+    ]
+  }
+}
+
 resource "aws_iam_role_policy" "codebuild-role-policy" {
   role = aws_iam_role.codebuild-role.name
 
-  policy = file("aws_codebuild_project_iam_policy.json")
+  policy = data.aws_iam_policy_document.codebuild-policy.json
 }
 
 resource "aws_codebuild_project" "talos-build-project" {
@@ -36,7 +88,7 @@ resource "aws_codebuild_project" "talos-build-project" {
   }
 
   # what do we do with other branches?
-  source_version = "master"
+  source_version = var.branch
 
   artifacts {
     type = "CODEPIPELINE"
