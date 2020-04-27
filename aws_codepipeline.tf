@@ -1,9 +1,9 @@
-resource "aws_s3_bucket" "template-codepipeline" {
+resource "aws_s3_bucket" "codepipeline-s3-bucket" {
   bucket = "codepipeline-${var.project-name}"
   acl = "private"
 }
 
-resource "aws_iam_role" "template-codepipeline-role" {
+resource "aws_iam_role" "codepipeline-iam-role" {
   name = "codepipeline-${var.project-name}"
 
   assume_role_policy = <<EOF
@@ -22,19 +22,19 @@ resource "aws_iam_role" "template-codepipeline-role" {
 EOF
 }
 
-resource "aws_iam_role_policy" "template-codepipeline_policy" {
+resource "aws_iam_role_policy" "codepipeline-iam-role-policy" {
   name = "codepipeline-${var.project-name}"
-  role = aws_iam_role.template-codepipeline-role.id
+  role = aws_iam_role.codepipeline-iam-role.id
 
   policy = file("aws_codepipeline_iam_policy.json")
 }
 
 resource "aws_codepipeline" "codepipeline" {
   name = var.project-name
-  role_arn = aws_iam_role.template-codepipeline-role.arn
+  role_arn = aws_iam_role.codepipeline-iam-role.arn
 
   artifact_store {
-    location = aws_s3_bucket.template-codepipeline.bucket
+    location = aws_s3_bucket.codepipeline-s3-bucket.bucket
     type = "S3"
   }
 
@@ -51,7 +51,7 @@ resource "aws_codepipeline" "codepipeline" {
         "SourceArtifact"]
 
       configuration = {
-        RepositoryName = aws_codecommit_repository.terraform-codepipeline-template-codecommit.repository_name
+        RepositoryName = aws_codecommit_repository.codecommit-repository.repository_name
         BranchName = var.branch
         PollForSourceChanges = true
       }

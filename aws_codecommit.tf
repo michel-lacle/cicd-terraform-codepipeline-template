@@ -1,4 +1,4 @@
-resource "aws_codecommit_repository" "terraform-codepipeline-template-codecommit" {
+resource "aws_codecommit_repository" "codecommit-repository" {
   repository_name = var.project-name
   description     = var.project-name
 
