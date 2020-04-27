@@ -12,3 +12,7 @@ variable "repository-name" {
   type = string
   description = "the name of the codecommit repository"
 }
+
+variable "slack-url" {
+  type = string
+}
