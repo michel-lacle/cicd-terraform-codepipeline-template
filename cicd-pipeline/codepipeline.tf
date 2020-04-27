@@ -51,7 +51,7 @@ resource "aws_codepipeline" "codepipeline" {
         "SourceArtifact"]
 
       configuration = {
-        RepositoryName = aws_codecommit_repository.codecommit-repository.repository_name
+        RepositoryName = var.repository-name
         BranchName = var.branch
         PollForSourceChanges = true
       }
