@@ -13,8 +13,8 @@ provider "archive" {}
 data "archive_file" "notification-lambda-file" {
   type = "zip"
 
-  source_file = file("${path.module}/${var.lambda-file}")
-  output_path = file("${path.module}/${var.lambda-zip-file}")
+  source_file = "${path.module}/${var.lambda-file}"
+  output_path = "${path.module}/${var.lambda-zip-file}"
 }
 
 resource "aws_iam_role" "notification-lambda-iam-role" {
@@ -46,7 +46,7 @@ resource "aws_lambda_function" "notification-lambda-function" {
   # The filebase64sha256() function is available in Terraform 0.11.12 and later
   # For Terraform 0.11.11 and earlier, use the base64sha256() function and the file() function:
   # source_code_hash = "${base64sha256(file("lambda_function_payload.zip"))}"
-  source_code_hash = filebase64sha256(var.lambda-zip-file)
+  #source_code_hash = filebase64sha256(var.lambda-zip-file)
 
   runtime = "python3.7"
 
