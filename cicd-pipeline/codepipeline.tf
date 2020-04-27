@@ -1,10 +1,10 @@
 resource "aws_s3_bucket" "codepipeline-s3-bucket" {
-  bucket = "codepipeline-${var.application-name}"
+  bucket = "codepipeline-${var.application-name}-${var.branch}"
   acl = "private"
 }
 
 resource "aws_iam_role" "codepipeline-iam-role" {
-  name = "codepipeline-${var.application-name}"
+  name = "codepipeline-${var.application-name}-${var.branch}"
 
   assume_role_policy = <<EOF
 {
@@ -23,14 +23,14 @@ EOF
 }
 
 resource "aws_iam_role_policy" "codepipeline-iam-role-policy" {
-  name = "codepipeline-${var.application-name}"
+  name = "codepipeline-${var.application-name}-${var.branch}]"
   role = aws_iam_role.codepipeline-iam-role.id
 
   policy = file("${path.module}/codepipeline_iam_policy.json")
 }
 
 resource "aws_codepipeline" "codepipeline" {
-  name = var.application-name
+  name = "${var.application-name}-${var.branch}"
   role_arn = aws_iam_role.codepipeline-iam-role.arn
 
   artifact_store {
@@ -98,9 +98,8 @@ resource "aws_codepipeline" "codepipeline" {
         BucketName = aws_s3_bucket.cicd-artifact-s3-bucket.bucket
         Extract = false
 
-        ObjectKey = "#{SourceVariables.BranchName}/${var.application-name}-{datetime}--#{SourceVariables.CommitId}.zip"
+        ObjectKey = "${var.application-name}-{datetime}--#{SourceVariables.CommitId}.zip"
       }
     }
   }
 }
-

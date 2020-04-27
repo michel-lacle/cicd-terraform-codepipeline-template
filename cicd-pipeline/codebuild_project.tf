@@ -1,5 +1,5 @@
 resource "aws_iam_role" "codebuild-role" {
-  name = "codebuild-${var.application-name}"
+  name = "codebuild-${var.application-name}-${var.branch}"
 
   assume_role_policy = <<EOF
 {
@@ -76,7 +76,7 @@ resource "aws_iam_role_policy" "codebuild-role-policy" {
 }
 
 resource "aws_codebuild_project" "codebuild-project" {
-  name = var.application-name
+  name = "${var.application-name}-${var.branch}"
   description = var.application-name
 
   # in minutes
