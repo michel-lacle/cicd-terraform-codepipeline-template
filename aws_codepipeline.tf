@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "template-codepipeline" {
-  bucket = "codepipeline-artifacts-${var.project-name}"
+  bucket = "codepipeline-${var.project-name}"
   acl = "private"
 }
 
@@ -73,7 +73,7 @@ resource "aws_codepipeline" "codepipeline" {
       version = "1"
 
       configuration = {
-        ProjectName = aws_codebuild_project.talos-build-project.name
+        ProjectName = aws_codebuild_project.codebuild-project.name
       }
     }
   }

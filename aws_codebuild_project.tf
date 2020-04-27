@@ -1,5 +1,5 @@
 resource "aws_iam_role" "codebuild-role" {
-  name = "${var.project-name}-codebuild-role"
+  name = "${var.project-name}-codebuild"
 
   assume_role_policy = <<EOF
 {
@@ -75,9 +75,9 @@ resource "aws_iam_role_policy" "codebuild-role-policy" {
   policy = data.aws_iam_policy_document.codebuild-policy.json
 }
 
-resource "aws_codebuild_project" "talos-build-project" {
-  name = "${var.project-name}-codebuild-project"
-  description = "${var.project-name}-codebuild-project"
+resource "aws_codebuild_project" "codebuild-project" {
+  name = var.project-name
+  description = var.project-name
 
   # in minutes
   build_timeout = "10"
