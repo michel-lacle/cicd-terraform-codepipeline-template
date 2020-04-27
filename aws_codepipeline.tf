@@ -1,10 +1,10 @@
 resource "aws_s3_bucket" "template-codepipeline" {
-  bucket = "template-codepipeline"
+  bucket = "codepipeline-artifacts-${var.project-name}"
   acl = "private"
 }
 
 resource "aws_iam_role" "template-codepipeline-role" {
-  name = "template-codepipeline-role"
+  name = "codepipeline-${var.project-name}"
 
   assume_role_policy = <<EOF
 {
@@ -23,14 +23,14 @@ EOF
 }
 
 resource "aws_iam_role_policy" "template-codepipeline_policy" {
-  name = "template-codepipeline-policy"
+  name = "codepipeline-${var.project-name}"
   role = aws_iam_role.template-codepipeline-role.id
 
   policy = file("aws_codepipeline_iam_policy.json")
 }
 
 resource "aws_codepipeline" "codepipeline" {
-  name = "template-cicd-pipeline"
+  name = var.project-name
   role_arn = aws_iam_role.template-codepipeline-role.arn
 
   artifact_store {
@@ -52,7 +52,7 @@ resource "aws_codepipeline" "codepipeline" {
 
       configuration = {
         RepositoryName = aws_codecommit_repository.terraform-codepipeline-template-codecommit.repository_name
-        BranchName = "master"
+        BranchName = var.branch
         PollForSourceChanges = true
       }
     }
