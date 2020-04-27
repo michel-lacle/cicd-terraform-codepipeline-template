@@ -3,16 +3,18 @@ variable "application-name" {
   default = "terraform-codepipeline-template"
 }
 
-variable "branch-name" {
-  type = string
-  default = "master"
-}
-
-
-module "cicd-pipeline" {
+module "cicd-pipeline-master-branch" {
   source = "./cicd-pipeline"
 
   application-name = var.application-name
-  branch = var.branch-name
+  branch = "master"
+  repository-name = aws_codecommit_repository.codecommit-repository.repository_name
+}
+
+module "cicd-pipeline-dev-branch" {
+  source = "./cicd-pipeline"
+
+  application-name = var.application-name
+  branch = "dev"
   repository-name = aws_codecommit_repository.codecommit-repository.repository_name
 }
