@@ -42,10 +42,7 @@ resource "aws_lambda_function" "notification-lambda-function" {
   function_name = "codepipeline-notification-${var.application-name}-${var.branch}"
   role          = aws_iam_role.notification-lambda-iam-role.arn
   handler       = "notification_lambda.send_message"
-
-  # The filebase64sha256() function is available in Terraform 0.11.12 and later
-  # For Terraform 0.11.11 and earlier, use the base64sha256() function and the file() function:
-  # source_code_hash = "${base64sha256(file("lambda_function_payload.zip"))}"
+  
   source_code_hash = filebase64sha256("${path.module}/${var.lambda-zip-file}")
 
   runtime = "python3.7"
