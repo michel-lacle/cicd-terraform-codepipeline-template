@@ -98,11 +98,7 @@ resource "aws_codepipeline" "codepipeline" {
         BucketName = aws_s3_bucket.cicd-artifact-s3-bucket.bucket
         Extract = false
 
-        # TODO manually configure ObjectKey in AWS console to use
-        # #{SourceVariables.BranchName}/Talos-{datetime}--#{SourceVariables.CommitId}.zip
-        #ObjectKey = "#{SourceVariables.BranchName}/Talos-{datetime}--#{SourceVariables.CommitId}.zip"
-        ObjectKey = "${var.application-name}-DONOTUSE.zip"
-        #
+        ObjectKey = "#{SourceVariables.BranchName}/${var.application-name}-{datetime}--#{SourceVariables.CommitId}.zip"
       }
     }
   }
