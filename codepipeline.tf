@@ -51,11 +51,12 @@ resource "aws_codepipeline" "codepipeline" {
         "SourceArtifact"]
 
       configuration = {
-        Namespace = "SourceVariables"
         RepositoryName = aws_codecommit_repository.codecommit-repository.repository_name
         BranchName = var.branch
         PollForSourceChanges = true
       }
+
+      namespace = "SourceVariables"
     }
   }
 
