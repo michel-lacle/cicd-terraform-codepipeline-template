@@ -18,7 +18,7 @@ data "archive_file" "notification-lambda-file" {
 }
 
 resource "aws_iam_role" "notification-lambda-iam-role" {
-  name = "codepipeline-lambda-${var.application-name}"
+  name = "codepipeline-lambda-${var.application-name}-${var.branch}"
 
   assume_role_policy = <<EOF
 {
@@ -39,7 +39,7 @@ EOF
 
 resource "aws_lambda_function" "notification-lambda-function" {
   filename      = "${path.module}/${var.lambda-zip-file}"
-  function_name = "terraform-slack-notifier"
+  function_name = "codepipeline-notification-${var.application-name}-${var.branch}"
   role          = aws_iam_role.notification-lambda-iam-role.arn
   handler       = "notification_lambda.send_message"
 
