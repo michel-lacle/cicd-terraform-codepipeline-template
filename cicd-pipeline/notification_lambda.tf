@@ -38,7 +38,7 @@ EOF
 }
 
 resource "aws_lambda_function" "notification-lambda-function" {
-  filename      = "${path.module}/var.lambda-zip-file"
+  filename      = "${path.module}/${var.lambda-zip-file}"
   function_name = "terraform-slack-notifier"
   role          = aws_iam_role.notification-lambda-iam-role.arn
   handler       = "notification_lambda.send_message"
