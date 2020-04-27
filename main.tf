@@ -9,6 +9,7 @@ module "cicd-pipeline-master-branch" {
   application-name = var.application-name
   branch = "master"
   repository-name = aws_codecommit_repository.codecommit-repository.repository_name
+  slack-url = ""
 }
 
 module "cicd-pipeline-dev-branch" {
@@ -17,4 +18,5 @@ module "cicd-pipeline-dev-branch" {
   application-name = var.application-name
   branch = "dev"
   repository-name = aws_codecommit_repository.codecommit-repository.repository_name
+  slack-url = ""
 }
