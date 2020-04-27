@@ -1,5 +1,5 @@
 resource "aws_iam_role" "codebuild-role" {
-  name = "codebuild-${var.project-name}"
+  name = "codebuild-${var.application-name}"
 
   assume_role_policy = <<EOF
 {
@@ -76,8 +76,8 @@ resource "aws_iam_role_policy" "codebuild-role-policy" {
 }
 
 resource "aws_codebuild_project" "codebuild-project" {
-  name = var.project-name
-  description = var.project-name
+  name = var.application-name
+  description = var.application-name
 
   # in minutes
   build_timeout = "10"
@@ -102,6 +102,6 @@ resource "aws_codebuild_project" "codebuild-project" {
   }
 
   tags = {
-    Projectr = var.project-name
+    Projectr = var.application-name
   }
 }

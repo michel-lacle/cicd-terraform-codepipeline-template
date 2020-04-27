@@ -1,10 +1,10 @@
 resource "aws_s3_bucket" "codepipeline-s3-bucket" {
-  bucket = "codepipeline-${var.project-name}"
+  bucket = "codepipeline-${var.application-name}"
   acl = "private"
 }
 
 resource "aws_iam_role" "codepipeline-iam-role" {
-  name = "codepipeline-${var.project-name}"
+  name = "codepipeline-${var.application-name}"
 
   assume_role_policy = <<EOF
 {
@@ -23,14 +23,14 @@ EOF
 }
 
 resource "aws_iam_role_policy" "codepipeline-iam-role-policy" {
-  name = "codepipeline-${var.project-name}"
+  name = "codepipeline-${var.application-name}"
   role = aws_iam_role.codepipeline-iam-role.id
 
   policy = file("aws_codepipeline_iam_policy.json")
 }
 
 resource "aws_codepipeline" "codepipeline" {
-  name = var.project-name
+  name = var.application-name
   role_arn = aws_iam_role.codepipeline-iam-role.arn
 
   artifact_store {
@@ -97,7 +97,7 @@ resource "aws_codepipeline" "codepipeline" {
         # TODO manually configure ObjectKey in AWS console to use
         # #{SourceVariables.BranchName}/Talos-{datetime}--#{SourceVariables.CommitId}.zip
         #ObjectKey = "#{SourceVariables.BranchName}/Talos-{datetime}--#{SourceVariables.CommitId}.zip"
-        ObjectKey = "${var.project-name}-DONOTUSE.zip"
+        ObjectKey = "${var.application-name}-DONOTUSE.zip"
         #
       }
     }
