@@ -26,7 +26,7 @@ resource "aws_iam_role_policy" "codepipeline-iam-role-policy" {
   name = "codepipeline-${var.application-name}"
   role = aws_iam_role.codepipeline-iam-role.id
 
-  policy = file("aws_codepipeline_iam_policy.json")
+  policy = file("codepipeline_iam_policy.json")
 }
 
 resource "aws_codepipeline" "codepipeline" {
