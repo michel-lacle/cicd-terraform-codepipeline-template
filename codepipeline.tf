@@ -77,6 +77,8 @@ resource "aws_codepipeline" "codepipeline" {
       configuration = {
         ProjectName = aws_codebuild_project.codebuild-project.name
       }
+
+      namespace = "BuildVariables"
     }
   }
 
