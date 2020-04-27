@@ -23,7 +23,7 @@ EOF
 }
 
 resource "aws_iam_role_policy" "codepipeline-iam-role-policy" {
-  name = "codepipeline-${var.application-name}-${var.branch}]"
+  name = "codepipeline-${var.application-name}-${var.branch}"
   role = aws_iam_role.codepipeline-iam-role.id
 
   policy = file("${path.module}/codepipeline_iam_policy.json")
