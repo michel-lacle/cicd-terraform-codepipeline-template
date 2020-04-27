@@ -77,7 +77,7 @@ resource "aws_codepipeline" "codepipeline" {
       }
     }
   }
-/*
+
   stage {
     name = "Deploy"
 
@@ -91,18 +91,16 @@ resource "aws_codepipeline" "codepipeline" {
       version = "1"
 
       configuration = {
-        BucketName = "progress-rail"
+        BucketName = aws_s3_bucket.cicd-artifact-s3-bucket.bucket
         Extract = false
 
         # TODO manually configure ObjectKey in AWS console to use
         # #{SourceVariables.BranchName}/Talos-{datetime}--#{SourceVariables.CommitId}.zip
         #ObjectKey = "#{SourceVariables.BranchName}/Talos-{datetime}--#{SourceVariables.CommitId}.zip"
-        ObjectKey = "Talos-DONOTUSE.zip"
+        ObjectKey = "${var.project-name}-DONOTUSE.zip"
         #
       }
     }
-
   }
-  */
 }
 
