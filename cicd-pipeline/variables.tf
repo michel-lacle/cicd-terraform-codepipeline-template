@@ -15,4 +15,5 @@ variable "repository-name" {
 
 variable "slack-url" {
   type = string
+  description = "the slack url to provide"
 }
