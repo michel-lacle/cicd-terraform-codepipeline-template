@@ -17,3 +17,5 @@ variable "slack-url" {
   type = string
   description = "the slack url to provide"
 }
+
+# more TODO variables for email

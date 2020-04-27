@@ -87,7 +87,6 @@ resource "aws_codebuild_project" "codebuild-project" {
     type = "CODEPIPELINE"
   }
 
-  # what do we do with other branches?
   source_version = var.branch
 
   artifacts {

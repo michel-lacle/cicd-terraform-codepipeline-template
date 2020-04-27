@@ -13,8 +13,8 @@ provider "archive" {}
 data "archive_file" "notification-lambda-file" {
   type = "zip"
 
-  source_file = var.lambda-file
-  output_path = var.lambda-zip-file
+  source_file = file("${path.module}/${var.lambda-file}")
+  output_path = file("${path.module}/${var.lambda-zip-file}")
 }
 
 resource "aws_iam_role" "notification-lambda-iam-role" {
