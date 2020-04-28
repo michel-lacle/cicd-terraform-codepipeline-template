@@ -38,7 +38,7 @@ resource "aws_lambda_function" "notification-lambda-function" {
   role          = aws_iam_role.notification-lambda-iam-role.arn
   handler       = "notification_lambda.send_message"
   
-  source_code_hash = filebase64sha256(local.lambda-zip)
+  source_code_hash = data.archive_file.notification-lambda-file.output_base64sha256
 
   runtime = "python3.7"
 
