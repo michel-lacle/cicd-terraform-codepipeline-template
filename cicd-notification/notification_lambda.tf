@@ -17,7 +17,7 @@ data "archive_file" "notification-lambda-file" {
 }
 
 resource "aws_iam_role" "notification-lambda-iam-role" {
-  name = "${var.codepipeline-name}-notification-${var.name}"
+  name = "${var.codepipeline-name}-noti-${var.name}"
 
   assume_role_policy = <<-EOF
 {
