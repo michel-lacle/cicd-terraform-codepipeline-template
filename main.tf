@@ -43,6 +43,37 @@ EOT
 EOT
 }
 
+module "cicd-pipeline-master-build-failed-notification" {
+  source = "./cicd-notification"
+
+  name = "build-succeeded"
+  codepipeline-name = module.cicd-pipeline-master-branch.codepipeline-name
+  slack-url = var.slack-url-succeeded
+
+  message =<<EOT
+  Build Failed, please check the build output here:
+https://console.aws.amazon.com/codesuite/codepipeline/pipelines/${module.cicd-pipeline-dev-branch.codepipeline-name}/view?region=us-east-1#
+EOT
+  subject = "Build Failed"
+
+  event_pattern = <<-EOT
+{
+  "source": [
+    "aws.codepipeline"
+  ],
+  "detail-type": [
+    "CodePipeline Pipeline Execution State Change"
+  ],
+  "detail": {
+    "pipeline": [
+        "${module.cicd-pipeline-master-branch.codepipeline-name}"
+    ],
+    "state" : ["FAILED"]
+  }
+}
+EOT
+}
+
 module "cicd-pipeline-dev-branch" {
   source = "./cicd-pipeline"
 
