@@ -7,7 +7,7 @@ resource "aws_cloudwatch_event_rule" "code-pipeline-stage-change" {
     "aws.codepipeline"
   ],
   "detail-type": [
-    "CodePipeline Stage Execution State Change"
+    "CodePipeline Pipeline Execution State Change"
   ]
 }
 PATTERN
