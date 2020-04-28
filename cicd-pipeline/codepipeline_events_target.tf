@@ -13,7 +13,8 @@ resource "aws_cloudwatch_event_rule" "code-pipeline-stage-change" {
     "pipeline": [
         "${aws_codepipeline.codepipeline.name}"
     ]
-  }
+  },
+  "state" : ["SUCCEEDED"]
 }
 EOT
 }
