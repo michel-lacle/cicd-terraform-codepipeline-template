@@ -3,7 +3,7 @@ variable "application-name" {
   default = "terraform-codepipeline-template"
 }
 
-module "cicd-pipeline-master-branch" {
+module "pipeline-master" {
   source = "./cicd-pipeline"
 
   application-name = var.application-name
@@ -11,20 +11,18 @@ module "cicd-pipeline-master-branch" {
   repository-name = aws_codecommit_repository.codecommit-repository.repository_name
 }
 
-module "cicd-pipeline-master-branch-notifications" {
+module "pipeline-master-succeeded-notifications" {
   source = "./cicd-notifications"
 
-  codepipeline-name = module.cicd-pipeline-master-branch.codepipeline-name
-  s3-bucket-name = module.cicd-pipeline-master-branch.cicd-artifact-bucket-name
+  codepipeline-name = module.pipeline-master.codepipeline-name
+  s3-bucket-name = module.pipeline-master.cicd-artifact-bucket-name
   slack-url = var.slack-url-succeeded
 }
 
-module "cicd-pipeline-dev-branch" {
+module "pipeline-dev" {
   source = "./cicd-pipeline"
 
   application-name = var.application-name
   branch = "dev"
   repository-name = aws_codecommit_repository.codecommit-repository.repository_name
-
-
 }
