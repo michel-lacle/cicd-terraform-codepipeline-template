@@ -4,15 +4,15 @@ locals {
 }
 
 provider "archive" {}
-/*
+
 data "archive_file" "notification-lambda-file" {
   type = "zip"
 
   source_file = local.lambda-file
   output_path = local.lambda-zip
-}*/
+}
 
-/*
+
 resource "aws_iam_role" "notification-lambda-iam-role" {
   name = "codepipeline-lambda-${var.codepipeline-name}"
 
@@ -32,9 +32,8 @@ resource "aws_iam_role" "notification-lambda-iam-role" {
 }
 EOF
 }
-*/
 
-/*
+
 resource "aws_lambda_function" "notification-lambda-function" {
   filename      = local.lambda-file
   function_name = "codepipeline-notification-${var.codepipeline-name}"
@@ -47,13 +46,12 @@ resource "aws_lambda_function" "notification-lambda-function" {
 
   environment {
     variables = {
-      #SLACK_URL = var.slack-url
-     # BUILD_ARTIFACT_BUCKET = var.s3-bucket-name
+      SLACK_URL = var.slack-url
+      BUILD_ARTIFACT_BUCKET = var.s3-bucket-name
       DEBUG = 1
-      #EMAIL_TOPIC_ARN = aws_sns_topic.pipeline-succeeded-email-topic.arn
+      EMAIL_TOPIC_ARN = aws_sns_topic.pipeline-succeeded-email-topic.arn
     }
   }
 
   depends_on = [data.archive_file.notification-lambda-file]
 }
-*/
