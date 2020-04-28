@@ -33,7 +33,7 @@ module "cicd-pipeline-master-build-failed-notification" {
 
   name = "build-failed"
   codepipeline-name = module.cicd-pipeline-master-branch.codepipeline-name
-  slack-url = var.slack-url-succeeded
+  slack-url = var.slack-url-failed
 
   message =<<EOT
   Build Failed, please check the build output here:
@@ -73,7 +73,7 @@ module "cicd-pipeline-dev-build-failed-notification" {
 
   name = "build-failed"
   codepipeline-name = module.cicd-pipeline-dev-branch.codepipeline-name
-  slack-url = var.slack-url-succeeded
+  slack-url = var.slack-url-failed
 
   message =<<EOT
   Build Failed, please check the build output here:
