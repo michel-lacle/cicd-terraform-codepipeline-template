@@ -1,6 +1,6 @@
 
 resource "aws_cloudwatch_event_rule" "codepipeline-pipeline-succeeded-rule" {
-  name        = "pipeline-succeeded-${var.codepipeline-name}"
+  name        = "${var.codepipeline-name}-notification-${var.name}"
 
   event_pattern = var.event_pattern
 }

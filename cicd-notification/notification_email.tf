@@ -1,6 +1,6 @@
 
 resource "aws_sns_topic" "pipeline-succeeded-email-topic" {
-  name = "codepipeline-succeeded-email-${var.codepipeline-name}"
+  name = "${var.codepipeline-name}-notification-${var.name}"
 }
 
 data "aws_iam_policy_document" "pipeline-succeeded-policy-document" {

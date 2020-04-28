@@ -17,7 +17,7 @@ data "archive_file" "notification-lambda-file" {
 }
 
 resource "aws_iam_role" "notification-lambda-iam-role" {
-  name = "codepipeline-lambda-${var.codepipeline-name}"
+  name = "${var.codepipeline-name}-notification-${var.name}"
 
   assume_role_policy = <<-EOF
 {
@@ -38,7 +38,7 @@ EOF
 
 resource "aws_lambda_function" "notification-lambda-function" {
   filename      = "${path.module}/${var.lambda-zip-file}"
-  function_name = "codepipeline-notification-${var.codepipeline-name}"
+  function_name = "${var.codepipeline-name}-notification-${var.name}"
   role          = aws_iam_role.notification-lambda-iam-role.arn
   handler       = "notification_lambda.send_message"
 
