@@ -52,6 +52,7 @@ resource "aws_lambda_function" "notification-lambda-function" {
       SLACK_URL = var.slack-url
       BUILD_ARTIFACT_BUCKET = aws_s3_bucket.cicd-artifact-s3-bucket.bucket
       DEBUG = 1
+      EMAIL_TOPIC_ARN = aws_sns_topic.pipeline-succeeded-email-topic.arn
     }
   }
 

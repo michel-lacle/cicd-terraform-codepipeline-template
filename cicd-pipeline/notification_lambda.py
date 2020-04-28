@@ -40,3 +40,5 @@ def send_message(event, context):
     message = f"Build Succeeded, please download latest artifact here: {download_url}"
 
     send_to_slack(message)
+
+    send_to_email(message, "New Build Available")
