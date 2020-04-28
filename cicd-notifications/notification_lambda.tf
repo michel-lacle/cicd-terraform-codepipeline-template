@@ -13,7 +13,7 @@ data "archive_file" "notification-lambda-file" {
 }
 
 resource "aws_iam_role" "notification-lambda-iam-role" {
-  name = "codepipeline-lambda-${var.application-name}-${var.branch}"
+  name = "codepipeline-lambda-${var.codepipeline-name}"
 
   assume_role_policy = <<EOF
 {
@@ -34,7 +34,7 @@ EOF
 
 resource "aws_lambda_function" "notification-lambda-function" {
   filename      = local.lambda-file
-  function_name = "codepipeline-notification-${var.application-name}-${var.branch}"
+  function_name = "codepipeline-notification-${var.codepipeline-name}"
   role          = aws_iam_role.notification-lambda-iam-role.arn
   handler       = "notification_lambda.send_message"
   
@@ -45,7 +45,7 @@ resource "aws_lambda_function" "notification-lambda-function" {
   environment {
     variables = {
       SLACK_URL = var.slack-url
-      BUILD_ARTIFACT_BUCKET = aws_s3_bucket.cicd-artifact-s3-bucket.bucket
+      BUILD_ARTIFACT_BUCKET = var.s3-bucket-name
       DEBUG = 1
       EMAIL_TOPIC_ARN = aws_sns_topic.pipeline-succeeded-email-topic.arn
     }

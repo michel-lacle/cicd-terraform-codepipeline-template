@@ -1,5 +1,5 @@
 resource "aws_cloudwatch_event_rule" "codepipeline-pipeline-succeeded-rule" {
-  name        = "pipeline-succeeded-${var.application-name}-${var.branch}"
+  name        = "pipeline-succeeded-${var.codepipeline-name}"
 
   event_pattern = <<-EOT
 {
@@ -11,7 +11,7 @@ resource "aws_cloudwatch_event_rule" "codepipeline-pipeline-succeeded-rule" {
   ],
   "detail": {
     "pipeline": [
-        "${aws_codepipeline.codepipeline.name}"
+        "${var.codepipeline-name}"
     ],
     "state" : ["SUCCEEDED"]
   }
