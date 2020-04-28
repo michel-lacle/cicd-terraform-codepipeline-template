@@ -4,7 +4,7 @@ import json, os
 
 def send_to_slack(message):
     url = os.environ['SLACK_URL']
-    body = {"text": f"```${message}```"}
+    body = {"text": message}
     bytes = json.dumps(body).encode('utf-8')
 
     req = request.Request(url)
@@ -19,11 +19,11 @@ def send_message(event, context):
     debug = os.environ['DEBUG']
 
     if debug == 1:
-        send_to_slack(event)
+        send_to_slack(f"```{event}```")
 
     # now send message to slack
     bucket_name = os.environ['BUILD_ARTIFACT_BUCKET']
-    download_url = f"https://s3.console.aws.amazon.com/s3/buckets/${bucket_name}/?region=us-east-1"
+    download_url = f"https://s3.console.aws.amazon.com/s3/buckets/{bucket_name}/?region=us-east-1"
 
     message = f"Build Succeeded, please download latest artifact here: ${download_url}"
 
