@@ -12,6 +12,7 @@ data "archive_file" "notification-lambda-file" {
   output_path = local.lambda-zip
 }*/
 
+/*
 resource "aws_iam_role" "notification-lambda-iam-role" {
   name = "codepipeline-lambda-${var.codepipeline-name}"
 
@@ -31,6 +32,8 @@ resource "aws_iam_role" "notification-lambda-iam-role" {
 }
 EOF
 }
+*/
+
 /*
 resource "aws_lambda_function" "notification-lambda-function" {
   filename      = local.lambda-file
