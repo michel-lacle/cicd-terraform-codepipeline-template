@@ -13,7 +13,7 @@ module "cicd-pipeline-master-branch" {
 
 
 module "cicd-pipeline-master-build-succeeded-notification" {
-  source = "cicd-notification"
+  source = "./cicd-notification"
 
   codepipeline-name = module.cicd-pipeline-master-branch.codepipeline-name
   s3-bucket-name = module.cicd-pipeline-master-branch.cicd-artifact-bucket-name
