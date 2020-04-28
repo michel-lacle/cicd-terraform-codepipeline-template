@@ -30,7 +30,7 @@ def send_to_email(message, subject):
 def send_message(event, context):
     debug = os.environ['DEBUG']
 
-    if debug == 1:
+    if debug == "true":
         send_to_slack(f"```{event}```")
 
     # now send message to slack
