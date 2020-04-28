@@ -1,5 +1,5 @@
 from urllib import request
-import json, os
+import json, os, boto3
 
 
 def send_to_slack(message):
@@ -14,6 +14,18 @@ def send_to_slack(message):
     print(resp)
 
 
+def send_to_email(message, subject):
+    arn = os.environ['EMAIL_TOPIC_ARN']
+
+    client = boto3.client('sns')
+
+    response = client.publish(
+        TopicArn=arn,
+        Message=message,
+        Subject=subject
+    )
+
+
 # entry point of lambda
 def send_message(event, context):
     debug = os.environ['DEBUG']
@@ -25,7 +37,6 @@ def send_message(event, context):
     bucket_name = os.environ['BUILD_ARTIFACT_BUCKET']
     download_url = f"https://s3.console.aws.amazon.com/s3/buckets/{bucket_name}/?region=us-east-1"
 
-    message = f"Build Succeeded, please download latest artifact here: ${download_url}"
+    message = f"Build Succeeded, please download latest artifact here: {download_url}"
 
-    # send notificaton to users that build is complete
     send_to_slack(message)
