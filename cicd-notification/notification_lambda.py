@@ -37,8 +37,9 @@ def send_message(event, context):
     bucket_name = os.environ['BUILD_ARTIFACT_BUCKET']
     download_url = f"https://s3.console.aws.amazon.com/s3/buckets/{bucket_name}/?region=us-east-1"
 
-    message = f"Build Succeeded, please download latest artifact here: {download_url}"
+    message = os.environ['MESSAGE']
+    subject = os.environ['SUBJECT']
 
     send_to_slack(message)
 
-    send_to_email(message, "New Build Available")
+    send_to_email(message, subject)

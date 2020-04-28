@@ -1,4 +1,4 @@
-/*
+
 variable "lambda-file" {
   type = string
   default = "notification_lambda.py"
@@ -51,10 +51,11 @@ resource "aws_lambda_function" "notification-lambda-function" {
       DEBUG = "true"
       SLACK_URL = var.slack-url
       EMAIL_TOPIC_ARN = aws_sns_topic.pipeline-succeeded-email-topic.arn
-      BUILD_ARTIFACT_BUCKET = var.s3-bucket-name
+      MESSAGE = var.message
+      SUBJECT = var.subject
     }
   }
 
   depends_on = [data.archive_file.notification-lambda-file]
 }
-*/
+
