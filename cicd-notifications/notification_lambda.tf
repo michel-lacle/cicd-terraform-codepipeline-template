@@ -1,6 +1,6 @@
 locals {
   lambda-file = "${path.module}/notification_lambda.py"
-  lambda-zip = "${path.module}/notification_lambda.zip}"
+  lambda-zip = "${path.module}/notification_lambda.zip"
 }
 
 provider "archive" {}
