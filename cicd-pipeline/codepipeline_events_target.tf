@@ -1,16 +1,19 @@
 resource "aws_cloudwatch_event_rule" "code-pipeline-stage-change" {
   name        = "codepipeline-events-${var.application-name}-${var.branch}"
 
-  event_pattern = <<PATTERN
+  event_pattern = <<-EOT
 {
   "source": [
     "aws.codepipeline"
   ],
   "detail-type": [
     "CodePipeline Pipeline Execution State Change"
-  ]
+  ],
+  "detail": {
+    "pipeline": "${aws_codepipeline.codepipeline.name}"
+  }
 }
-PATTERN
+EOT
 }
 
 resource "aws_cloudwatch_event_target" "lambda-event-target" {
