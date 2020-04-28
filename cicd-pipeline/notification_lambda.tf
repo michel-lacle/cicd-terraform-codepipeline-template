@@ -4,13 +4,13 @@ locals {
 }
 
 provider "archive" {}
-
+/*
 data "archive_file" "notification-lambda-file" {
   type = "zip"
 
   source_file = local.lambda-file
   output_path = local.lambda-zip
-}
+}*/
 
 resource "aws_iam_role" "notification-lambda-iam-role" {
   name = "codepipeline-lambda-${var.codepipeline-name}"
