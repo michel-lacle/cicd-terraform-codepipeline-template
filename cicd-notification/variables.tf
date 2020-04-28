@@ -1,3 +1,7 @@
+variable "name" {
+  type = string
+}
+
 variable "codepipeline-name" {
   type = string
   description = "the name of the codepipeline to monitor"

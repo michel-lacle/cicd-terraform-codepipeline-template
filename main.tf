@@ -15,6 +15,7 @@ module "cicd-pipeline-master-branch" {
 module "cicd-pipeline-master-build-succeeded-notification" {
   source = "./cicd-notification"
 
+  name = "build-succeeded"
   codepipeline-name = module.cicd-pipeline-master-branch.codepipeline-name
   slack-url = var.slack-url-succeeded
 
