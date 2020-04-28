@@ -1,3 +1,4 @@
+/*
 resource "aws_cloudwatch_event_rule" "codepipeline-pipeline-succeeded-rule" {
   name        = "pipeline-succeeded-${var.codepipeline-name}"
 
@@ -32,3 +33,4 @@ resource "aws_lambda_permission" "cloudwatch-lambda-permission" {
   principal     = "events.amazonaws.com"
   source_arn    = aws_cloudwatch_event_rule.codepipeline-pipeline-succeeded-rule.arn
 }
+*/
