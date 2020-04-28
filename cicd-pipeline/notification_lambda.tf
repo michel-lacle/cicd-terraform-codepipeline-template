@@ -31,7 +31,7 @@ resource "aws_iam_role" "notification-lambda-iam-role" {
 }
 EOF
 }
-
+/*
 resource "aws_lambda_function" "notification-lambda-function" {
   filename      = local.lambda-file
   function_name = "codepipeline-notification-${var.codepipeline-name}"
@@ -53,3 +53,4 @@ resource "aws_lambda_function" "notification-lambda-function" {
 
   depends_on = [data.archive_file.notification-lambda-file]
 }
+*/
