@@ -46,7 +46,7 @@ EOT
 module "cicd-pipeline-master-build-failed-notification" {
   source = "./cicd-notification"
 
-  name = "build-succeeded"
+  name = "build-failed"
   codepipeline-name = module.cicd-pipeline-master-branch.codepipeline-name
   slack-url = var.slack-url-succeeded
 
