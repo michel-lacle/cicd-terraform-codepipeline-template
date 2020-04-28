@@ -21,26 +21,11 @@ module "cicd-pipeline-master-build-succeeded-notification" {
 
   message =<<EOT
   Build Succeeded, please download latest artifact here:
-https://s3.console.aws.amazon.com/s3/buckets/${module.cicd-pipeline-dev-branch.cicd-artifact-bucket-name}/?region=us-east-1
+https://s3.console.aws.amazon.com/s3/buckets/${module.cicd-pipeline-master-branch.cicd-artifact-bucket-name}/?region=us-east-1
 EOT
   subject = "New Build Available"
 
-  event_pattern = <<-EOT
-{
-  "source": [
-    "aws.codepipeline"
-  ],
-  "detail-type": [
-    "CodePipeline Pipeline Execution State Change"
-  ],
-  "detail": {
-    "pipeline": [
-        "${module.cicd-pipeline-master-branch.codepipeline-name}"
-    ],
-    "state" : ["SUCCEEDED"]
-  }
-}
-EOT
+  state = "SUCCEEDED"
 }
 
 module "cicd-pipeline-master-build-failed-notification" {
@@ -52,26 +37,11 @@ module "cicd-pipeline-master-build-failed-notification" {
 
   message =<<EOT
   Build Failed, please check the build output here:
-https://console.aws.amazon.com/codesuite/codepipeline/pipelines/${module.cicd-pipeline-dev-branch.codepipeline-name}/view?region=us-east-1#
+https://console.aws.amazon.com/codesuite/codepipeline/pipelines/${module.cicd-pipeline-master-branch.codepipeline-name}/view?region=us-east-1#
 EOT
-  subject = "Build Failed"
 
-  event_pattern = <<-EOT
-{
-  "source": [
-    "aws.codepipeline"
-  ],
-  "detail-type": [
-    "CodePipeline Pipeline Execution State Change"
-  ],
-  "detail": {
-    "pipeline": [
-        "${module.cicd-pipeline-master-branch.codepipeline-name}"
-    ],
-    "state" : ["FAILED"]
-  }
-}
-EOT
+  subject = "Build Failed"
+  state = "FAILED"
 }
 
 module "cicd-pipeline-dev-branch" {

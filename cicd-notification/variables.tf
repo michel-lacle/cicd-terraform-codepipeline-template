@@ -20,6 +20,6 @@ variable "subject" {
   type = string
 }
 
-variable "event_pattern" {
+variable "state" {
   type = string
 }
