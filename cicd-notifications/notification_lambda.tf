@@ -3,6 +3,8 @@ locals {
   lambda-zip =  "${path.module}/notification_lambda.zip"
 }
 
+provider "archive" {}
+
 data "archive_file" "notification-lambda-file" {
   type = "zip"
 
