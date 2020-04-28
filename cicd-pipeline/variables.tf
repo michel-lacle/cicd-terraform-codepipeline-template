@@ -12,8 +12,3 @@ variable "repository-name" {
   type = string
   description = "the name of the codecommit repository"
 }
-
-variable "codepipeline-name" {
-  type = string
-  description = "the name of the codepipeline to monitor"
-}
