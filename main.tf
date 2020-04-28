@@ -51,3 +51,35 @@ module "cicd-pipeline-dev-branch" {
   branch = "dev"
   repository-name = aws_codecommit_repository.codecommit-repository.repository_name
 }
+
+module "cicd-pipeline-dev-build-succeeded-notification" {
+  source = "./cicd-notification"
+
+  name = "build-succeeded"
+  codepipeline-name = module.cicd-pipeline-dev-branch.codepipeline-name
+  slack-url = var.slack-url-succeeded
+
+  message =<<EOT
+  Build Succeeded, please download latest artifact here:
+https://s3.console.aws.amazon.com/s3/buckets/${module.cicd-pipeline-dev-branch.cicd-artifact-bucket-name}/?region=us-east-1
+EOT
+  subject = "New Build Available"
+
+  state = "SUCCEEDED"
+}
+
+module "cicd-pipeline-dev-build-failed-notification" {
+  source = "./cicd-notification"
+
+  name = "build-failed"
+  codepipeline-name = module.cicd-pipeline-dev-branch.codepipeline-name
+  slack-url = var.slack-url-succeeded
+
+  message =<<EOT
+  Build Failed, please check the build output here:
+https://console.aws.amazon.com/codesuite/codepipeline/pipelines/${module.cicd-pipeline-dev-branch.codepipeline-name}/view?region=us-east-1#
+EOT
+
+  subject = "Build Failed"
+  state = "FAILED"
+}

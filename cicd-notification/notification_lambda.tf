@@ -48,7 +48,7 @@ resource "aws_lambda_function" "notification-lambda-function" {
 
   environment {
     variables = {
-      DEBUG = "true"
+      DEBUG = "false"
       SLACK_URL = var.slack-url
       EMAIL_TOPIC_ARN = aws_sns_topic.pipeline-succeeded-email-topic.arn
       MESSAGE = var.message
