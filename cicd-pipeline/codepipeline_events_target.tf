@@ -10,7 +10,7 @@ resource "aws_cloudwatch_event_rule" "code-pipeline-stage-change" {
     "CodePipeline Pipeline Execution State Change"
   ],
   "detail": {
-    "pipeline": "${aws_codepipeline.codepipeline.name}"
+    "pipeline": ["${aws_codepipeline.codepipeline.name}"]
   }
 }
 EOT
