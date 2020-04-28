@@ -1,5 +1,5 @@
-resource "aws_cloudwatch_event_rule" "code-pipeline-stage-change" {
-  name        = "codepipeline-events-${var.application-name}-${var.branch}"
+resource "aws_cloudwatch_event_rule" "codepipeline-pipeline-succeeded-rule" {
+  name        = "codepipeline-pipeline-succeeded-event-${var.application-name}-${var.branch}"
 
   event_pattern = <<-EOT
 {
@@ -12,15 +12,15 @@ resource "aws_cloudwatch_event_rule" "code-pipeline-stage-change" {
   "detail": {
     "pipeline": [
         "${aws_codepipeline.codepipeline.name}"
-    ]
-  },
-  "state" : ["SUCCEEDED"]
+    ],
+    "state" : ["SUCCEEDED"]
+  }
 }
 EOT
 }
 
 resource "aws_cloudwatch_event_target" "lambda-event-target" {
-  rule      = aws_cloudwatch_event_rule.code-pipeline-stage-change.name
+  rule      = aws_cloudwatch_event_rule.codepipeline-pipeline-succeeded-rule.name
   target_id = "SendToLambda"
   arn       = aws_lambda_function.notification-lambda-function.arn
 }
@@ -30,5 +30,5 @@ resource "aws_lambda_permission" "cloudwatch-lambda-permission" {
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.notification-lambda-function.function_name
   principal     = "events.amazonaws.com"
-  source_arn    = aws_cloudwatch_event_rule.code-pipeline-stage-change.arn
+  source_arn    = aws_cloudwatch_event_rule.codepipeline-pipeline-succeeded-rule.arn
 }
