@@ -1,3 +1,4 @@
+/*
 variable "lambda-file" {
   type = string
   default = "notification_lambda.py"
@@ -7,8 +8,6 @@ variable "lambda-zip-file" {
   type = string
   default = "notification_lambda.zip"
 }
-
-provider "archive" {}
 
 data "archive_file" "notification-lambda-file" {
   type = "zip"
@@ -58,3 +57,4 @@ resource "aws_lambda_function" "notification-lambda-function" {
 
   depends_on = [data.archive_file.notification-lambda-file]
 }
+*/
