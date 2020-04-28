@@ -57,6 +57,5 @@ resource "aws_lambda_function" "notification-lambda-function" {
   }
 
   depends_on = [data.archive_file.notification-lambda-file]
-
 }
 

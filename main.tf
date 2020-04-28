@@ -16,7 +16,6 @@ module "cicd-pipeline-master-build-succeeded-notification" {
   source = "./cicd-notification"
 
   codepipeline-name = module.cicd-pipeline-master-branch.codepipeline-name
-  s3-bucket-name = module.cicd-pipeline-master-branch.cicd-artifact-bucket-name
   slack-url = var.slack-url-succeeded
 
   message =<<EOT
@@ -24,9 +23,24 @@ module "cicd-pipeline-master-build-succeeded-notification" {
 https://s3.console.aws.amazon.com/s3/buckets/${module.cicd-pipeline-dev-branch.cicd-artifact-bucket-name}/?region=us-east-1
 EOT
   subject = "New Build Available"
+
+  event_pattern = <<-EOT
+{
+  "source": [
+    "aws.codepipeline"
+  ],
+  "detail-type": [
+    "CodePipeline Pipeline Execution State Change"
+  ],
+  "detail": {
+    "pipeline": [
+        "${module.cicd-pipeline-master-branch.codepipeline-name}"
+    ],
+    "state" : ["SUCCEEDED"]
+  }
 }
-
-
+EOT
+}
 
 module "cicd-pipeline-dev-branch" {
   source = "./cicd-pipeline"

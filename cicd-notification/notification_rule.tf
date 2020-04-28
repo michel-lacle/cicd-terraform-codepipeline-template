@@ -2,22 +2,7 @@
 resource "aws_cloudwatch_event_rule" "codepipeline-pipeline-succeeded-rule" {
   name        = "pipeline-succeeded-${var.codepipeline-name}"
 
-  event_pattern = <<-EOT
-{
-  "source": [
-    "aws.codepipeline"
-  ],
-  "detail-type": [
-    "CodePipeline Pipeline Execution State Change"
-  ],
-  "detail": {
-    "pipeline": [
-        "${var.codepipeline-name}"
-    ],
-    "state" : ["SUCCEEDED"]
-  }
-}
-EOT
+  event_pattern = var.event_pattern
 }
 
 resource "aws_cloudwatch_event_target" "lambda-event-target" {
