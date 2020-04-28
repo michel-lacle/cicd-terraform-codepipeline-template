@@ -1,6 +1,11 @@
-locals {
-  lambda-file = "${path.module}/notification_lambda.py"
-  lambda-zip =  "${path.module}/notification_lambda.zip"
+variable "lambda-file" {
+  type = string
+  default = "notification_lambda.py"
+}
+
+variable "lambda-zip-file" {
+  type = string
+  default = "notification_lambda.zip"
 }
 
 provider "archive" {}
@@ -8,10 +13,9 @@ provider "archive" {}
 data "archive_file" "notification-lambda-file" {
   type = "zip"
 
-  source_file = local.lambda-file
-  output_path = local.lambda-zip
+  source_file = "${path.module}/${var.lambda-file}"
+  output_path = "${path.module}/${var.lambda-zip-file}"
 }
-
 
 resource "aws_iam_role" "notification-lambda-iam-role" {
   name = "codepipeline-lambda-${var.codepipeline-name}"
@@ -33,14 +37,13 @@ resource "aws_iam_role" "notification-lambda-iam-role" {
 EOF
 }
 
-
 resource "aws_lambda_function" "notification-lambda-function" {
-  filename      = local.lambda-file
+  filename      = "${path.module}/${var.lambda-zip-file}"
   function_name = "codepipeline-notification-${var.codepipeline-name}"
   role          = aws_iam_role.notification-lambda-iam-role.arn
   handler       = "notification_lambda.send_message"
-  
-  source_code_hash = data.archive_file.notification-lambda-file.output_base64sha256
+
+  source_code_hash = filebase64sha256("${path.module}/${var.lambda-zip-file}")
 
   runtime = "python3.7"
 
