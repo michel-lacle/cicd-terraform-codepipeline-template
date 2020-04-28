@@ -8,7 +8,7 @@ variable "lambda-zip-file" {
   default = "notification_lambda.zip"
 }
 
-
+provider "archive" {}
 
 data "archive_file" "notification-lambda-file" {
   type = "zip"
