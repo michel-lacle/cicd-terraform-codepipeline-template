@@ -10,6 +10,7 @@ module "cicd-pipeline-master-branch" {
   branch = "master"
   repository-name = aws_codecommit_repository.codecommit-repository.repository_name
 
+  codepipeline-name = "${var.application-name}-master"
 }
 /*
 module "cicd-pipeline-master-branch-notifications" {
@@ -27,4 +28,5 @@ module "cicd-pipeline-dev-branch" {
   branch = "dev"
   repository-name = aws_codecommit_repository.codecommit-repository.repository_name
   #slack-url = var.slack-url-failed
+  codepipeline-name = "${var.application-name}-dev"
 }
