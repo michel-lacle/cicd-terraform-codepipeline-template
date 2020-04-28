@@ -50,6 +50,7 @@ resource "aws_lambda_function" "notification-lambda-function" {
   environment {
     variables = {
       SLACK_URL = var.slack-url
+      BUILD_ARTIFACT_BUCKET = aws_s3_bucket.cicd-artifact-s3-bucket.bucket
     }
   }
 
