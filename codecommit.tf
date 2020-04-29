@@ -12,7 +12,7 @@ resource "aws_codecommit_repository" "codecommit-repository" {
 data "template_file" "pull-request-created-template" {
   template = file("codecommit-pull-request-created.tpl")
 
-  vars {
+  vars = {
     repository-name = aws_codecommit_repository.codecommit-repository.repository_name
   }
 }
