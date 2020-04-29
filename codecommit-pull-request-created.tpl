@@ -1,6 +1,6 @@
 {
   "source": [
-    "aws.codepipeline"
+    "aws.codecommit"
   ],
   "detail-type": [
     "CodeCommit Pull Request State Change"
