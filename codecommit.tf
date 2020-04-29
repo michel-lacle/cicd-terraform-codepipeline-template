@@ -13,7 +13,7 @@ data "template_file" "pull-request-created-template" {
   template = file("codecommit-pull-request-created.tpl")
 }
 
-module "cicd-pipeline-dev-build-failed-notification" {
+module "pull-request-created-notification" {
   source = "./cicd-notification"
 
   name = "${var.application-name}-pullrequest-created"
