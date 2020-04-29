@@ -11,7 +11,7 @@ module "cicd-pipeline-master-branch" {
   repository-name = aws_codecommit_repository.codecommit-repository.repository_name
 }
 
-data "template_file" "build-succeeded-event-rulefile" {
+data "template_file" "master-build-succeeded-event-rulefile" {
   template = file("pipeline-event-rule.tpl")
 
   vars = {
@@ -19,7 +19,6 @@ data "template_file" "build-succeeded-event-rulefile" {
     event = "SUCCEEDED"
   }
 }
-
 
 module "cicd-pipeline-master-build-succeeded-notification" {
   source = "./cicd-notification"
@@ -35,7 +34,16 @@ EOT
 
   state = "SUCCEEDED"
 
-  rule = data.template_file.build-succeeded-event-rulefile.rendered
+  rule = data.template_file.master-build-succeeded-event-rulefile.rendered
+}
+
+data "template_file" "master-build-failed-event-rulefile" {
+  template = file("pipeline-event-rule.tpl")
+
+  vars = {
+    codepipeline-name = module.cicd-pipeline-master-branch.codepipeline-name
+    event = "FAILED"
+  }
 }
 
 module "cicd-pipeline-master-build-failed-notification" {
@@ -52,6 +60,8 @@ EOT
 
   subject = "Build Failed"
   state = "FAILED"
+
+  rule = data.template_file.master-build-failed-event-rulefile.rendered
 }
 
 module "cicd-pipeline-dev-branch" {
@@ -60,6 +70,15 @@ module "cicd-pipeline-dev-branch" {
   application-name = var.application-name
   branch = "dev"
   repository-name = aws_codecommit_repository.codecommit-repository.repository_name
+}
+
+data "template_file" "dev-build-succeeded-event-rulefile" {
+  template = file("pipeline-event-rule.tpl")
+
+  vars = {
+    codepipeline-name = module.cicd-pipeline-dev-branch.codepipeline-name
+    event = "SUCCEEDED"
+  }
 }
 
 module "cicd-pipeline-dev-build-succeeded-notification" {
@@ -75,6 +94,17 @@ EOT
   subject = "New Build Available"
 
   state = "SUCCEEDED"
+
+  rule = data.template_file.dev-build-succeeded-event-rulefile.rendered
+}
+
+data "template_file" "dev-build-failed-event-rulefile" {
+  template = file("pipeline-event-rule.tpl")
+
+  vars = {
+    codepipeline-name = module.cicd-pipeline-dev-branch.codepipeline-name
+    event = "FAILED"
+  }
 }
 
 module "cicd-pipeline-dev-build-failed-notification" {
@@ -90,4 +120,6 @@ EOT
 
   subject = "Build Failed"
   state = "FAILED"
+
+  rule = data.template_file.dev-build-failed-event-rulefile.rendered
 }

@@ -23,3 +23,7 @@ variable "subject" {
 variable "state" {
   type = string
 }
+
+variable "rule" {
+  type = string
+}
