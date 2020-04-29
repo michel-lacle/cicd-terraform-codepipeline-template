@@ -8,6 +8,9 @@
   "detail": {
     "event": [
         "pullRequestCreated"
+    ],
+    "repositoryNames" : [
+        "${repository-name}"
     ]
   }
 }

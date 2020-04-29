@@ -11,6 +11,10 @@ resource "aws_codecommit_repository" "codecommit-repository" {
 # now send message based on a pull request created event
 data "template_file" "pull-request-created-template" {
   template = file("codecommit-pull-request-created.tpl")
+
+  vars {
+    repository-name = aws_codecommit_repository.codecommit-repository.repository_name
+  }
 }
 
 module "pull-request-created-notification" {
