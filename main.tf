@@ -11,6 +11,15 @@ module "cicd-pipeline-master-branch" {
   repository-name = aws_codecommit_repository.codecommit-repository.repository_name
 }
 
+data "template_file" "build-succeeded-event-rulefile" {
+  template = file("pipeline-event-rule.tpl")
+
+  vars = {
+    codepipeline-name = module.cicd-pipeline-master-branch.codepipeline-name
+    event = "SUCCEEDED"
+  }
+}
+
 
 module "cicd-pipeline-master-build-succeeded-notification" {
   source = "./cicd-notification"
@@ -20,12 +29,13 @@ module "cicd-pipeline-master-build-succeeded-notification" {
   slack-url = var.slack-url-succeeded
 
   message =<<EOT
-  Build Succeeded, please download latest artifact here:
-https://s3.console.aws.amazon.com/s3/buckets/${module.cicd-pipeline-master-branch.cicd-artifact-bucket-name}/?region=us-east-1
+  Build Succeeded, please download latest artifact here: https://s3.console.aws.amazon.com/s3/buckets/${module.cicd-pipeline-master-branch.cicd-artifact-bucket-name}/?region=us-east-1
 EOT
   subject = "New Build Available"
 
   state = "SUCCEEDED"
+
+  rule = data.template_file.build-succeeded-event-rulefile.rendered
 }
 
 module "cicd-pipeline-master-build-failed-notification" {
@@ -60,8 +70,7 @@ module "cicd-pipeline-dev-build-succeeded-notification" {
   slack-url = var.slack-url-succeeded
 
   message =<<EOT
-  Build Succeeded, please download latest artifact here:
-https://s3.console.aws.amazon.com/s3/buckets/${module.cicd-pipeline-dev-branch.cicd-artifact-bucket-name}/?region=us-east-1
+  Build Succeeded, please download latest artifact here: https://s3.console.aws.amazon.com/s3/buckets/${module.cicd-pipeline-dev-branch.cicd-artifact-bucket-name}/?region=us-east-1
 EOT
   subject = "New Build Available"
 
@@ -76,8 +85,7 @@ module "cicd-pipeline-dev-build-failed-notification" {
   slack-url = var.slack-url-failed
 
   message =<<EOT
-  Build Failed, please check the build output here:
-https://console.aws.amazon.com/codesuite/codepipeline/pipelines/${module.cicd-pipeline-dev-branch.codepipeline-name}/view?region=us-east-1#
+  Build Failed, please check the build output here: https://console.aws.amazon.com/codesuite/codepipeline/pipelines/${module.cicd-pipeline-dev-branch.codepipeline-name}/view?region=us-east-1#
 EOT
 
   subject = "Build Failed"
