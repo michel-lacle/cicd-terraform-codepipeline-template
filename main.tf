@@ -8,7 +8,7 @@ module "cicd-pipeline-master-branch" {
 
   application-name = var.application-name
   branch = "master"
-  repository-name = aws_codecommit_repository.codecommit-repository.repository_name
+  repository-name = aws_codecommit_repository.application-repository.repository_name
 }
 
 data "template_file" "master-build-succeeded-event-rulefile" {
@@ -64,7 +64,7 @@ module "cicd-pipeline-dev-branch" {
 
   application-name = var.application-name
   branch = "dev"
-  repository-name = aws_codecommit_repository.codecommit-repository.repository_name
+  repository-name = aws_codecommit_repository.application-repository.repository_name
 }
 
 data "template_file" "dev-build-succeeded-event-rulefile" {
