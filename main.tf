@@ -16,7 +16,7 @@ data "template_file" "master-build-succeeded-event-rulefile" {
 
   vars = {
     codepipeline-name = module.cicd-pipeline-master-branch.codepipeline-name
-    event = "SUCCEEDED"
+    state = "SUCCEEDED"
   }
 }
 
@@ -32,8 +32,6 @@ module "cicd-pipeline-master-build-succeeded-notification" {
 EOT
   subject = "New Build Available"
 
-  state = "SUCCEEDED"
-
   rule = data.template_file.master-build-succeeded-event-rulefile.rendered
 }
 
@@ -42,7 +40,7 @@ data "template_file" "master-build-failed-event-rulefile" {
 
   vars = {
     codepipeline-name = module.cicd-pipeline-master-branch.codepipeline-name
-    event = "FAILED"
+    state = "FAILED"
   }
 }
 
@@ -59,7 +57,6 @@ https://console.aws.amazon.com/codesuite/codepipeline/pipelines/${module.cicd-pi
 EOT
 
   subject = "Build Failed"
-  state = "FAILED"
 
   rule = data.template_file.master-build-failed-event-rulefile.rendered
 }
@@ -77,7 +74,7 @@ data "template_file" "dev-build-succeeded-event-rulefile" {
 
   vars = {
     codepipeline-name = module.cicd-pipeline-dev-branch.codepipeline-name
-    event = "SUCCEEDED"
+    state = "SUCCEEDED"
   }
 }
 
@@ -93,8 +90,6 @@ module "cicd-pipeline-dev-build-succeeded-notification" {
 EOT
   subject = "New Build Available"
 
-  state = "SUCCEEDED"
-
   rule = data.template_file.dev-build-succeeded-event-rulefile.rendered
 }
 
@@ -103,7 +98,7 @@ data "template_file" "dev-build-failed-event-rulefile" {
 
   vars = {
     codepipeline-name = module.cicd-pipeline-dev-branch.codepipeline-name
-    event = "FAILED"
+    state = "FAILED"
   }
 }
 
@@ -119,7 +114,6 @@ module "cicd-pipeline-dev-build-failed-notification" {
 EOT
 
   subject = "Build Failed"
-  state = "FAILED"
 
   rule = data.template_file.dev-build-failed-event-rulefile.rendered
 }

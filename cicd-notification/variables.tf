@@ -20,10 +20,6 @@ variable "subject" {
   type = string
 }
 
-variable "state" {
-  type = string
-}
-
 variable "rule" {
   type = string
 }
