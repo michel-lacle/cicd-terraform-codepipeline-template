@@ -6,3 +6,6 @@ resource "aws_codecommit_repository" "codecommit-repository" {
     Project = var.application-name
   }
 }
+
+# now send message based on a pull request created event
+

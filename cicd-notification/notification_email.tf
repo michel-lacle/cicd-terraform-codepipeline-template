@@ -1,6 +1,6 @@
 
-resource "aws_sns_topic" "pipeline-succeeded-email-topic" {
-  name = "${var.codepipeline-name}-notification-${var.name}"
+resource "aws_sns_topic" "email-topic" {
+  name = var.name
 }
 
 data "aws_iam_policy_document" "pipeline-succeeded-policy-document" {
@@ -13,7 +13,7 @@ data "aws_iam_policy_document" "pipeline-succeeded-policy-document" {
     effect = "Allow"
 
     resources = [
-      aws_sns_topic.pipeline-succeeded-email-topic.arn
+      aws_sns_topic.email-topic.arn
     ]
 
     sid = "emailsnsid"

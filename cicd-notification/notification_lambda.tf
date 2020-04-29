@@ -17,7 +17,7 @@ data "archive_file" "notification-lambda-file" {
 }
 
 resource "aws_iam_role" "notification-lambda-iam-role" {
-  name = "${var.codepipeline-name}-noti-${var.name}"
+  name = var.name
 
   assume_role_policy = <<-EOF
 {
@@ -38,7 +38,7 @@ EOF
 
 resource "aws_lambda_function" "notification-lambda-function" {
   filename      = "${path.module}/${var.lambda-zip-file}"
-  function_name = "${var.codepipeline-name}-noti-${var.name}"
+  function_name = var.name
   role          = aws_iam_role.notification-lambda-iam-role.arn
   handler       = "notification_lambda.send_message"
 
@@ -50,7 +50,7 @@ resource "aws_lambda_function" "notification-lambda-function" {
     variables = {
       DEBUG = "false"
       SLACK_URL = var.slack-url
-      EMAIL_TOPIC_ARN = aws_sns_topic.pipeline-succeeded-email-topic.arn
+      EMAIL_TOPIC_ARN = aws_sns_topic.email-topic.arn
       MESSAGE = var.message
       SUBJECT = var.subject
     }

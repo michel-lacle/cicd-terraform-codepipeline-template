@@ -1,6 +1,6 @@
 variable "application-name" {
   type = string
-  default = "terraform-codepipeline-template"
+  default = "pipeline-template"
 }
 
 module "cicd-pipeline-master-branch" {
@@ -23,16 +23,15 @@ data "template_file" "master-build-succeeded-event-rulefile" {
 module "cicd-pipeline-master-build-succeeded-notification" {
   source = "./cicd-notification"
 
-  name = "build-succeeded"
-  codepipeline-name = module.cicd-pipeline-master-branch.codepipeline-name
-  slack-url = var.slack-url-succeeded
+  name = "${var.application-name}-notification-build-success-master"
 
+  subject = "New Build Available"
   message =<<EOT
   Build Succeeded, please download latest artifact here: https://s3.console.aws.amazon.com/s3/buckets/${module.cicd-pipeline-master-branch.cicd-artifact-bucket-name}/?region=us-east-1
 EOT
-  subject = "New Build Available"
 
   rule = data.template_file.master-build-succeeded-event-rulefile.rendered
+  slack-url = var.slack-url-succeeded
 }
 
 data "template_file" "master-build-failed-event-rulefile" {
@@ -47,8 +46,7 @@ data "template_file" "master-build-failed-event-rulefile" {
 module "cicd-pipeline-master-build-failed-notification" {
   source = "./cicd-notification"
 
-  name = "build-failed"
-  codepipeline-name = module.cicd-pipeline-master-branch.codepipeline-name
+  name = "${var.application-name}-notification-build-fail-master"
   slack-url = var.slack-url-failed
 
   message =<<EOT
@@ -81,8 +79,7 @@ data "template_file" "dev-build-succeeded-event-rulefile" {
 module "cicd-pipeline-dev-build-succeeded-notification" {
   source = "./cicd-notification"
 
-  name = "build-succeeded"
-  codepipeline-name = module.cicd-pipeline-dev-branch.codepipeline-name
+  name = "${var.application-name}-notification-build-success-dev"
   slack-url = var.slack-url-succeeded
 
   message =<<EOT
@@ -105,8 +102,7 @@ data "template_file" "dev-build-failed-event-rulefile" {
 module "cicd-pipeline-dev-build-failed-notification" {
   source = "./cicd-notification"
 
-  name = "build-failed"
-  codepipeline-name = module.cicd-pipeline-dev-branch.codepipeline-name
+  name = "${var.application-name}-notification-build-fail-dev"
   slack-url = var.slack-url-failed
 
   message =<<EOT
