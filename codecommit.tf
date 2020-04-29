@@ -1,5 +1,5 @@
 # the repo of our application
-resource "aws_codecommit_repository" "application-repository" {
+resource "aws_codecommit_repository" "codecommit-repository" {
   repository_name = var.application-name
   description     = var.application-name
 
